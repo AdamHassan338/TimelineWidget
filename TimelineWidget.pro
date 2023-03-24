@@ -16,6 +16,8 @@ SOURCES += \
     timelinewidget.cpp
 
 HEADERS += \
+    Clip.h \
+    Track.h \
     cliprect.h \
     timelinescene.h \
     timelineview.h \
