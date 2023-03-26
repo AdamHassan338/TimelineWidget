@@ -1,4 +1,5 @@
 #include "cliprect.h"
+#include "qgraphicsscene.h"
 #include <QDebug>
 #include <QGraphicsSceneMouseEvent>
 #include <QBrush>
@@ -20,9 +21,9 @@ void ClipRect::mousePressEvent(QGraphicsSceneMouseEvent *event)
         m_startPos = event->scenePos();
         m_startClipPos = pos();
         m_mouseDelta = pos() - m_startPos;
-        event->accept();
+        //event->accept();
     }else{
-        event->ignore();
+        //event->ignore();
     }
     qDebug() << "clicked on rect\n" << scenePos();
 }
@@ -31,9 +32,38 @@ void ClipRect::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     QPointF mousePos = event->scenePos();
 
+    // need to know track height
+    // ypos % trackheight = track number
+
+    if(m_mousePressed){
+        qreal y = std::fmod(mousePos.y(), trackHeight);
+        qreal x = mousePos.x() + m_mouseDelta.x();
+        y = (mousePos.y() - y);
+
+        if(x>0){
+            setX(x);
+        }
+        if(y>=0){
+            setY(y);
+        }
+
+
+        qDebug() << y;
+
+    }
+
+
+
+
+
+
+    /*
     if(m_mousePressed){
         //QPointF oldPos = pos();
         //fix this
+        QPointF newPos = mousePos + m_mouseDelta;
+        setPos(newPos.x(),pos().y());
+
         if(std::fmod(mousePos.y(),trackWidth) != 0){
             QPointF newPos = mousePos + m_mouseDelta;
             setPos(newPos.x(),pos().y());
@@ -42,19 +72,16 @@ void ClipRect::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             qreal x = (mousePos + m_mouseDelta).x();
             setPos(x,y*trackWidth);
         }
-
-
-
-
     }
-    qDebug() << mousePos.y() / trackWidth;
-    event->accept();
+*/
+
+    //event->accept();
 }
 
 void ClipRect::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     m_mousePressed = false;
-    event->accept();
+    //event->accept();
 
 }
 

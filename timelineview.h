@@ -11,6 +11,15 @@ public:
 
 signals:
 
+
+    // QWidget interface
+protected:
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+
+private:
+    bool m_pressed;
 };
 
 #endif // TIMELINEVIEW_H

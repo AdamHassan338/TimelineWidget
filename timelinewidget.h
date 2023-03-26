@@ -6,6 +6,8 @@
 #include "timelineview.h"
 #include "timelinescene.h"
 #include "cliprect.h"
+#include "trackrect.h"
+#include "playhead.h"
 #include <vector>
 
 QT_BEGIN_NAMESPACE
@@ -25,12 +27,22 @@ private:
     Ui::TimelineWidget *ui;
     TimelineScene* scene;
     TimelineView* view;
+    Playhead* playhead;
     std::vector<Track> tracks;
+    std::vector<TrackRect*> trackRects;
     float trackWidth;
     float clipWidth;
 
+    bool m_playheadPressed = false;
 
 
 
+
+
+    // QWidget interface
+protected:
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
 };
 #endif // TIMELINEWIDGET_H

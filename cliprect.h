@@ -10,6 +10,8 @@ public:
 
     // QGraphicsItem interface
 private:
+    constexpr static const qreal trackHeight = 40;
+
     bool m_mousePressed;
     QPointF m_startPos;
     QPointF m_startClipPos;

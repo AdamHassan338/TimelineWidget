@@ -11,17 +11,21 @@ CONFIG += c++17
 SOURCES += \
     cliprect.cpp \
     main.cpp \
+    playhead.cpp \
     timelinescene.cpp \
     timelineview.cpp \
-    timelinewidget.cpp
+    timelinewidget.cpp \
+    trackrect.cpp
 
 HEADERS += \
     Clip.h \
     Track.h \
     cliprect.h \
+    playhead.h \
     timelinescene.h \
     timelineview.h \
-    timelinewidget.h
+    timelinewidget.h \
+    trackrect.h
 
 FORMS += \
     timelinewidget.ui
