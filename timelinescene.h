@@ -2,6 +2,7 @@
 #define TIMELINESCENE_H
 
 #include <QGraphicsScene>
+#include <QMimeData>
 
 class TimelineScene : public QGraphicsScene
 {

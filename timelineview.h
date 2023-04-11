@@ -2,6 +2,7 @@
 #define TIMELINEVIEW_H
 
 #include <QGraphicsView>
+#include <QTimer>
 
 class TimelineView : public QGraphicsView
 {
@@ -18,8 +19,28 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
 
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dragMoveEvent(QDragMoveEvent *event) override;
+    void dragLeaveEvent(QDragLeaveEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
+
 private:
     bool m_pressed;
+
+    QTimer m_scrollTimer;
+    QPoint m_lastDragPos;
+
+    void startAutoScroll();
+    void stopAutoScroll();
+    void scrollIfNecessary();
+
+
+private slots:
+    void onScrollTimerTimeout();
+
+
+
+
 };
 
 #endif // TIMELINEVIEW_H
