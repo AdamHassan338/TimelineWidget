@@ -17,7 +17,7 @@ Playhead::Playhead(qreal height) : QGraphicsLineItem()
 
 void Playhead::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    //Q_UNUSED(option);Q_UNUSED(widget);
+    Q_UNUSED(option);Q_UNUSED(widget);
     setLine(0,0,0,scene()->height()-1);
 
     painter->save();
@@ -30,8 +30,8 @@ void Playhead::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
 QRectF Playhead::boundingRect() const
 {
-    QPoint topLeft = QPoint(-5,0);
-    QPoint bottomRight = QPoint(5,-m_height);
+    QPoint topLeft = QPoint(-5,0);Q_UNUSED(topLeft);
+    QPoint bottomRight = QPoint(5,-m_height);Q_UNUSED(bottomRight);
     //return QRectF(topLeft,bottomRight);
     return QGraphicsLineItem::boundingRect();
 }
@@ -62,7 +62,7 @@ void Playhead::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void Playhead::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    //Q_UNUSED(event)
+    Q_UNUSED(event)
     m_pressed= false;
 
 }

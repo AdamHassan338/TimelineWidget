@@ -1,5 +1,5 @@
 #include "cliprect.h"
-#include "qgraphicsscene.h"
+#include <QGraphicsScene>
 #include <QDebug>
 #include <QGraphicsSceneMouseEvent>
 #include <QBrush>
@@ -10,9 +10,14 @@
 ClipRect::ClipRect()
 {
     //setFlag(ItemIsMovable);
+    if(!handler){
+        ClipRect::handler = new ClipItemHandler;
+    }
     m_mousePressed = false;
 
 }
+
+
 
 void ClipRect::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
@@ -38,6 +43,11 @@ void ClipRect::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     if(m_mousePressed){
         qreal y = std::fmod(mousePos.y(), trackHeight);
         qreal x = mousePos.x() + m_mouseDelta.x();
+
+        //if moved outside of scene
+        if(mousePos.y() + 5 >scene()->itemsBoundingRect().height()){
+            ClipRect::handler->emitnewTrack((int)y);
+        }
         y = (mousePos.y() - y);
 
         if(x>0){
@@ -48,38 +58,17 @@ void ClipRect::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         }
 
 
-        qDebug() << y;
+        //qDebug() << y;
 
     }
 
-
-
-
-
-
-    /*
-    if(m_mousePressed){
-        //QPointF oldPos = pos();
-        //fix this
-        QPointF newPos = mousePos + m_mouseDelta;
-        setPos(newPos.x(),pos().y());
-
-        if(std::fmod(mousePos.y(),trackWidth) != 0){
-            QPointF newPos = mousePos + m_mouseDelta;
-            setPos(newPos.x(),pos().y());
-        }else{
-            qreal y = mousePos.y() / trackWidth;
-            qreal x = (mousePos + m_mouseDelta).x();
-            setPos(x,y*trackWidth);
-        }
-    }
-*/
 
     //event->accept();
 }
 
 void ClipRect::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    Q_UNUSED(event);
     m_mousePressed = false;
     //event->accept();
 
@@ -87,9 +76,10 @@ void ClipRect::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 void ClipRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-
+    Q_UNUSED(option);Q_UNUSED(widget);
     painter->save();
     QBrush brush = QBrush(Qt::gray);
+
     QPen pen = QPen();
     pen.setColor(Qt::darkGray);
 
