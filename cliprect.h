@@ -4,6 +4,7 @@
 #include <QGraphicsRectItem>
 #include <clipitemhandler.h>
 
+
 class ClipRect : public QGraphicsRectItem
 {
 public:
@@ -13,7 +14,7 @@ public:
 
     // QGraphicsItem interface
 private:
-    constexpr static const qreal trackHeight = 40;
+
 
 
     bool m_mousePressed;
@@ -22,8 +23,7 @@ private:
     qreal m_clipPos;
     QPointF m_mouseDelta;
 
-    double trackWidth = 60;
-    qreal clipWidth;
+
     int newTrack(int trackNumber);
 
 protected:

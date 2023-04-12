@@ -19,13 +19,20 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
 
+
+
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *event) override;
     void dropEvent(QDropEvent *event) override;
 
+signals:
+    void newClip(QString filename,int frames,double framerate,int track,int x);
+
 private:
     bool m_pressed;
+
+    qreal m_zoomX;
 
     QTimer m_scrollTimer;
     QPoint m_lastDragPos;
@@ -37,6 +44,9 @@ private:
 
 private slots:
     void onScrollTimerTimeout();
+
+
+
 
 
 

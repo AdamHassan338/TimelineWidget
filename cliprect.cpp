@@ -6,6 +6,7 @@
 #include <QPainter>
 #include <QPen>
 #include <math.h>
+#include "common.h"
 
 ClipRect::ClipRect()
 {
@@ -44,7 +45,7 @@ void ClipRect::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         qreal y = std::fmod(mousePos.y(), trackHeight);
         qreal x = mousePos.x() + m_mouseDelta.x();
 
-        //if moved outside of scene
+        //if moved outside of scene, 5 is for sensistivity
         if(mousePos.y() + 5 >scene()->itemsBoundingRect().height()){
             ClipRect::handler->emitnewTrack((int)y);
         }
@@ -89,6 +90,7 @@ void ClipRect::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->setPen(pen);
     painter->setBrush(brush);
     painter->drawRect(rect());
+    painter->drawText(rect(),"name");
 
 
     painter->restore();

@@ -20,12 +20,13 @@ class TimelineWidget : public QWidget
 
 public:
     TimelineWidget(QWidget *parent = nullptr);
-    void addClip(QString name,int frames,double start);
+
 
     ~TimelineWidget();
 
 private  slots:
     void addTrack(int x);
+    void addClip(QString filename,int frames,double framerate,int track,int x);
 
 private:
     Ui::TimelineWidget *ui;
@@ -34,8 +35,8 @@ private:
     Playhead* playhead;
     std::vector<Track> tracks;
     std::vector<TrackRect*> trackRects;
-    float trackHeight;
-    float clipHeight;
+    //float trackHeight;
+    //float clipHeight;
 
     bool m_playheadPressed = false;
 

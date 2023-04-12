@@ -7,7 +7,7 @@
 #include <QMimeData>
 #include <QScrollBar>
 #include "cliprect.h"
-
+#include "common.h"
 TimelineView::TimelineView(QWidget *parent)
     : QGraphicsView{parent}
 {
@@ -88,15 +88,29 @@ void TimelineView::dropEvent(QDropEvent *event)
     if (event->mimeData()->hasUrls())
     {
         stopAutoScroll();
+        QPointF mousePos = mapToScene(event->position().toPoint());
+        qreal trackNum;
+        //put clip in a track
+        if(!scene()->sceneRect().contains(mousePos)){//if outside of scene
+            mousePos = QPointF(mousePos.x(),scene()->sceneRect().height()-trackHeight-1);
+            trackNum = mousePos.y()/40;
+        }else{
+            qreal dy = std::fmod(mousePos.y(), trackHeight);
+            trackNum = mousePos.y()/trackHeight;
+
+
+            mousePos.setY((trackNum*trackHeight)-dy);
+            qDebug() << mousePos;
+        }
+
+
         QList<QUrl> urls = event->mimeData()->urls();
         for (const QUrl& url : urls)
         {
             //add a graphics item
-            ClipRect* clip = new ClipRect();
-            clip->setRect(0,0,300,40);
-            clip->setPos(mapToScene(event->position().toPoint()));
-            scene()->addItem(clip);
+            qDebug() << mousePos;
             //emmit signal to video editor
+            emit newClip(url.toLocalFile(),800,30,trackNum,mousePos.x());
             qDebug() << "Dropped file:" << url.toLocalFile();
         }
         event->acceptProposedAction();

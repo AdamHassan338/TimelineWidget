@@ -23,6 +23,7 @@ HEADERS += \
     Track.h \
     clipitemhandler.h \
     cliprect.h \
+    common.h \
     playhead.h \
     timelinescene.h \
     timelineview.h \

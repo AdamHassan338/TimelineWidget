@@ -6,7 +6,8 @@
 struct Clip{
     std::string name;
     int frames;
-    double start;
+    int start;
+    int end;
 
 };
 

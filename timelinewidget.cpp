@@ -4,20 +4,22 @@
 #include <QMouseEvent>
 #include <QRectF>
 #include <QDebug>
+#include "common.h"
 
 ClipItemHandler* ClipRect::handler = new ClipItemHandler();
 TimelineWidget::TimelineWidget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::TimelineWidget)
 {
-    trackHeight = 40;
-    clipHeight= 40;
+    //trackHeight = 40;
+    //clipHeight= 40;
 
     ui->setupUi(this);
     scene = new TimelineScene(this);
     view = new TimelineView(this);
     view->frameRect();
     view->setScene(scene);
+    view->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     scene->setSceneRect(view->rect());
 
 
@@ -30,14 +32,15 @@ TimelineWidget::TimelineWidget(QWidget *parent)
     view->setAlignment(Qt::AlignTop | Qt::AlignLeft);
     ClipRect* clip = new ClipRect();
     clip->setRect(0,0,300,clipHeight);
+    clip->setPos(0,0);
     connect(ClipRect::handler,&ClipItemHandler::newTrack,this,&TimelineWidget::addTrack);
-
+    connect(view,&TimelineView::newClip,this,&TimelineWidget::addClip);
     scene->addItem(clip);
 
     ClipRect* clip2 = new ClipRect();
     clip2->setRect(0,0,100,clipHeight);
 
-    clip2->setPos(0,trackHeight*1);
+    clip2->setPos(5.5,trackHeight*1);
     scene->addItem(clip2);
 
 
@@ -55,6 +58,15 @@ TimelineWidget::TimelineWidget(QWidget *parent)
     playhead->setPos(10,0);
 
 
+}
+
+void TimelineWidget::addClip(QString filename,int frames,double framerate, int track, int x)
+{
+    ClipRect* clip = new ClipRect();
+    clip->setRect(0,0,frames,clipHeight);
+
+    clip->setPos(x,trackHeight*track);
+    scene->addItem(clip);
 }
 
 void TimelineWidget::addTrack(int x)
