@@ -2,9 +2,11 @@
 #define PLAYHEAD_H
 
 #include <QGraphicsLineItem>
+#include "playheadhandler.h"
 
 class Playhead : public QGraphicsLineItem
 {
+
 public:
     Playhead(qreal height);
 
@@ -19,8 +21,8 @@ protected:
 public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
     QRectF boundingRect() const override;
-
     void updatePos(QPointF p);
+    static PlayheadHandler* handler;
 
 private:
     bool m_pressed;
@@ -31,5 +33,4 @@ private:
 
 
 };
-
 #endif // PLAYHEAD_H

@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui openglwidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -13,6 +13,7 @@ SOURCES += \
     cliprect.cpp \
     main.cpp \
     playhead.cpp \
+    playheadhandler.cpp \
     timelinescene.cpp \
     timelineview.cpp \
     timelinewidget.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     cliprect.h \
     common.h \
     playhead.h \
+    playheadhandler.h \
     timelinescene.h \
     timelineview.h \
     timelinewidget.h \

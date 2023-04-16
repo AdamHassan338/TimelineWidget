@@ -5,8 +5,12 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 
-Playhead::Playhead(qreal height) : QGraphicsLineItem()
+Playhead::Playhead(qreal height) :QGraphicsLineItem()
 {
+
+    if(!handler){
+        Playhead::handler  = new PlayheadHandler;
+    }
     setLine(0,0,0,height);
     m_height = height;
     m_boundingRectOriginal = boundingRect();
@@ -21,7 +25,7 @@ void Playhead::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     setLine(0,0,0,scene()->height()-1);
 
     painter->save();
-    QPen pen = QPen(Qt::red,3);
+    QPen pen = QPen(Qt::red,1);
     painter->setPen(pen);
     painter->drawLine(line());
 
@@ -46,7 +50,7 @@ void Playhead::mousePressEvent(QGraphicsSceneMouseEvent *event)
     m_pressed = true;
     m_lastpos = event->scenePos();
     //line().setLine(m_lastpos.x(),0,m_lastpos.x(),scene()->width() -1);
-    qDebug() << "playhead";
+    qDebug() << "clicked : playhead";
 }
 
 void Playhead::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
@@ -54,8 +58,13 @@ void Playhead::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     if(m_pressed){
         m_lastpos = event->scenePos();
         //line().setLine(m_lastpos.x(),0,m_lastpos.x(),scene()->width() -1);
-        setPos(m_lastpos.x(),0);
-        qDebug() << "playhead move";
+        //dont allow to move out side of scene
+        if(m_lastpos.x()>0){
+            setPos(m_lastpos.x(),0);
+            //qDebug() << "playhead move";
+            handler->emitSignal();
+        }
+
     }
 
 }

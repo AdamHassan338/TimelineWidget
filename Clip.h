@@ -5,6 +5,7 @@
 
 struct Clip{
     std::string name;
+    int Track;
     int frames;
     int start;
     int end;

@@ -20,14 +20,18 @@ class TimelineWidget : public QWidget
 
 public:
     TimelineWidget(QWidget *parent = nullptr);
+    double currentTime();
+    int currentFrame();
 
+    int frameUnderPlayehead();
 
     ~TimelineWidget();
 
 private  slots:
     void addTrack(int x);
     void addClip(QString filename,int frames,double framerate,int track,int x);
-
+    void underPlayhead();
+    int getFrame(ClipRect* clip);
 private:
     Ui::TimelineWidget *ui;
     TimelineScene* scene;
@@ -35,6 +39,9 @@ private:
     Playhead* playhead;
     std::vector<Track> tracks;
     std::vector<TrackRect*> trackRects;
+    std::vector<ClipRect*> clipRects;
+    qreal playheadPos;
+
     //float trackHeight;
     //float clipHeight;
 
@@ -49,5 +56,9 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
+
+    // QWidget interface
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
 };
 #endif // TIMELINEWIDGET_H
